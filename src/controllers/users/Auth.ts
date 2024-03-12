@@ -7,11 +7,10 @@ import jwt from 'jsonwebtoken';
 export class Auth {
     async handle(request: Request, response: Response){
         try{
-            const {username, password} = request.body
-
+            const {email, password} = request.body
             const userExists = await prisma.user.findUnique({
                 where:{
-                    username
+                    email
                 }
             })
 
@@ -24,6 +23,7 @@ export class Auth {
             if(!isValidPassword){
                 return response.status(401).send({err:"Username ou senha incorretos!"})
             }
+            console.log(email, isValidPassword)
 
             const {id, name} = userExists
 
