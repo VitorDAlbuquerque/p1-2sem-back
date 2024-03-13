@@ -21,4 +21,26 @@ model user {
   birthDate String
   gender    String
   country   String
+  WatchList WatchList[]
+}
+
+
+model SavedMovies{
+  id String @id @default(uuid())
+  name String
+  isChecked Boolean @default(false)
+  Watchlist WatchList @relation(fields: [MovieID], references: [id])
+  MovieID String
+}
+
+model WatchList {
+
+  id String @id @default(uuid())
+  name String
+  description String
+  privacy Boolean
+  createDate String
+  user user @relation(fields: [authorId], references: [id])
+  authorId String
+  SavedMovies SavedMovies[]
 }

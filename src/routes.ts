@@ -18,4 +18,6 @@ router.post('/createNewUser', createUser.handle)
 router.post('/auth', auth.handle)
 router.get('/validateAuth', validateAuth.handle)
 
+
+
 export {router}
