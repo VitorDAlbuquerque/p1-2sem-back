@@ -35,24 +35,12 @@ try{
     }
 
     })
-
-
-
+    
 return response.status(200).json(newmovie)
 
 }
 catch{
         return response.status(500).send("Erro, tente novamente")
 }
-
-
-
-
     }
-
-
-
-
-
-
 }
