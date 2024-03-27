@@ -5,12 +5,12 @@ import jwt from 'jsonwebtoken';
 type JwtPayload = {
     id:string
 }
+export class AddMoviesWatchList {
+    async handle(request: Request, response: Response) {
+        try {
+            const { movieName, watchListId, movieId,  movieURLImg} = request.body;
 
-export class CreateWatchList {
-    async handle(request: Request, response: Response){
-        try{
             const {authorization} = request.headers;
-            const {name, description, privacy, firstMovieId, movieName, movieURLImg} = request.body;
 
             if(!authorization){
                 return response.status(401).send({error: 'err!'})
@@ -29,33 +29,32 @@ export class CreateWatchList {
             if(!user){
                 return response.status(401).send({err: "Usuário não encontrado!"})
             }
-            
-            const newWatchList = await prisma.watchList.create({
-                data:{
-                    name,
-                    description,
-                    privacy,
-                    createDate: "a",
-                    authorId: user.id
+
+            const verifywl = await prisma.watchList.findUnique({
+                where: {
+                    id: watchListId
                 }
             })
 
+            if (!verifywl) {
+                return response.status(401).send("Não existe")
+            }
+
             const newMovieAtList = await prisma.savedMovies.create({
                 data:{
-                    movieId: firstMovieId,
+                    movieId,
                     isChecked: false,
-                    WatchlistId: newWatchList.id,
+                    WatchlistId: watchListId,
                     movieName,
                     movieURLImg
                 }
             })
 
-            return response.status(200).json({newWatchList, newMovieAtList})
-        }
 
-        catch{
-            return response.status(500).send("Error")
+            return response.status(200).json(newMovieAtList)
+        }
+        catch {
+            return response.status(500).send("Erro, tente novamente")
         }
     }
-    
 }
