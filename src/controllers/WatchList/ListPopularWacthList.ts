@@ -8,7 +8,8 @@ export class ListPopularWacthList {
             include:{
                 user:{
                     select:{
-                        name: true
+                        name: true,
+                        id: true
                     }
                 }
             }

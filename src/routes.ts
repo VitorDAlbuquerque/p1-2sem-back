@@ -13,12 +13,14 @@ import { DeleteWatchList } from './controllers/WatchList/DeleteWatchList';
 import { ListPopularWacthList } from './controllers/WatchList/ListPopularWacthList';
 import { ListWatchListById } from './controllers/WatchList/ListWatchListById';
 import { ListMoviesOnWatchList } from './controllers/MoviesOnList/ListMoviesOnWatchList';
+import { GetUserById } from './controllers/users/GetUserById';
 
 const router = Router()
 
 const createUser = new CreateNewUser()
 const listUsers = new ListAllUsers()
 const auth = new Auth()
+const userById = new GetUserById()
 const validateAuth = new ValidateAuth()
 
 const createWatchList = new CreateWatchList()
@@ -34,12 +36,13 @@ const moviesOnLists = new ListMoviesOnWatchList()
 router.get('/listUsers', listUsers.handle)
 router.post('/createNewUser', createUser.handle)
 router.post('/auth', auth.handle)
+router.get('/userById/:id', userById.handle)
 router.get('/validateAuth', validateAuth.handle)
 //USERS
 
 //WATCHLISTS
 router.post('/createNewWatchList', createWatchList.handle)
-router.get('/listWatchListByUser', listWatchListByUser.handle)
+router.get('/listWatchListByUser/:id', listWatchListByUser.handle)
 router.get('/listWatchListById/:id', listWatchListById.handle)
 router.delete('/deleteWatchList/:watchListId', deleteWatchList.handle)
 router.post('/addMovie', addMovie.handle)
