@@ -14,9 +14,9 @@ datasource db {
 }
 
 model user {
-  id        String      @id @default(uuid())
+  id        String @id @default(uuid())
   name      String
-  email     String      @unique
+  email     String @unique
   password  String
   birthDate String
   gender    String
@@ -24,23 +24,23 @@ model user {
   WatchList WatchList[]
 }
 
-model SavedMovies {
-  id          String    @id @default(uuid())
-  isChecked   Boolean   @default(false)
-  Watchlist   WatchList @relation(fields: [WatchlistId], references: [id])
-  WatchlistId String
-  movieId     Int
-  movieName   String
-  movieURLImg String
+
+model SavedMovies{
+  id String @id @default(uuid())
+  name String
+  isChecked Boolean @default(false)
+  Watchlist WatchList @relation(fields: [MovieID], references: [id])
+  MovieID String
 }
 
 model WatchList {
-  id          String        @id @default(uuid())
-  name        String
+
+  id String @id @default(uuid())
+  name String
   description String
-  privacy     Boolean
-  createDate  String
-  user        user          @relation(fields: [authorId], references: [id])
-  authorId    String
+  privacy Boolean
+  createDate String
+  user user @relation(fields: [authorId], references: [id])
+  authorId String
   SavedMovies SavedMovies[]
 }
