@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
 import {prisma} from "../../database";
-import jwt, { Jwt } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
-
+type typeName = {
+    id: String
+}
 
 export class DeleteWatchList{
 
@@ -11,6 +13,16 @@ async handle (request: Request, response: Response){
 
 
     try{
+
+        const {authorization} = request.headers;
+
+        if(!authorization){
+            return response.status(500).send({err: "Autorização inválida"});
+        }
+
+        const token = authorization.split(' ')[1];
+
+        const {id} = jwt.verify(token, process.env.SECRET_TOKEN as string) as typeName;
 
         const {name, idwl} = request.body;
 
@@ -25,10 +37,9 @@ async handle (request: Request, response: Response){
         }
 
         const deleteWatchList = await prisma.watchList.delete({
-            data: {
-
-                name,
-                idwl:verifywl.id
+        
+            where: {
+                id:verifywl.id
 
             }
         })
