@@ -14,7 +14,7 @@ async handle( request: Request, response: Response){
     try{
 
         const { authorization} = request.headers;
-        const {idwl, name, description, privacy, createDate} = request.body;
+        const {idwl, name, description, privacy} = request.body;
 
         if(!authorization){
             return response.status(401).send({error: 'err!'})
@@ -44,8 +44,7 @@ async handle( request: Request, response: Response){
             data: {
                 name: name,
                 description: description,
-                privacy: privacy,
-                createDate: createDate 
+                privacy: privacy
             }
         })
 
