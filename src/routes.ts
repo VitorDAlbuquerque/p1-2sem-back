@@ -6,6 +6,7 @@ import { ListAllUsers } from './controllers/users/ListUsers';
 import { Auth } from './controllers/users/Auth';
 import { ValidateAuth } from './controllers/users/ValidateAuth';
 import { DeleteUsers} from './controllers/users/DeleteUsers';
+import { UpdateUser } from './controllers/users/UpdateUser';
 
 import { CreateWatchList } from './controllers/WatchList/CreateWatchList';
 import { AddMoviesWatchList } from './controllers/MoviesOnList/AddMoviesWatchList';
@@ -17,6 +18,7 @@ import { ListMoviesOnWatchList } from './controllers/MoviesOnList/ListMoviesOnWa
 import { GetUserById } from './controllers/users/GetUserById';
 import { UpdateWatchList } from './controllers/WatchList/UpdateWatchList';
 import { NewLike } from './controllers/UserInteractions/NewLike';
+
 const router = Router()
 
 const createUser = new CreateNewUser()
@@ -25,6 +27,7 @@ const auth = new Auth()
 const userById = new GetUserById()
 const validateAuth = new ValidateAuth()
 const deleteUsers = new DeleteUsers()
+const updateUser = new UpdateUser()
 
 const createWatchList = new CreateWatchList()
 const listWatchListByUser = new ListWatchListByUser()
@@ -43,6 +46,7 @@ router.post('/auth', auth.handle)
 router.get('/userById/:id', userById.handle)
 router.get('/validateAuth', validateAuth.handle)
 router.delete('/deleteUsers', deleteUsers.handle)
+router.post('/updateUser', updateUser.handle)
 //USERS
 
 //WATCHLISTS
