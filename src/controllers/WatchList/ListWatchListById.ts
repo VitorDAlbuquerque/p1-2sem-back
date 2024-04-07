@@ -21,6 +21,12 @@ export class ListWatchListById {
                             name: true,
                             id: true
                         }
+                    },
+                    isLiked:{
+                        select:{
+                            userId: true,
+                            watchListId: true
+                        }
                     }
                 }
             })

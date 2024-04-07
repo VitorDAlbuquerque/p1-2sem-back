@@ -4,57 +4,56 @@ import jwt, { Jwt, verify } from 'jsonwebtoken';
 import { DeleteWatchList } from "./DeleteWatchList";
 
 type typeName = {
-    id: String
+    id: string
 }
 
 export class UpdateWatchList{
 
-async handle( request: Request, response: Response){
+    async handle( request: Request, response: Response){
+        try{
+            const {authorization} = request.headers;
+            const {idwl, name, description, privacy} = request.body;
 
-    try{
-
-        const { authorization} = request.headers;
-        const {idwl, name, description, privacy} = request.body;
-
-        if(!authorization){
-            return response.status(401).send({error: 'err!'})
-        }
-
-        const token = authorization.split(' ')[1]
-
-        const {id}  =jwt.verify(token, process.env.SECRET_TOKEN as string) as typeName;
-       
-        const verifywl = await prisma.watchList.findUnique({
-            where:{
-                id:idwl
+            if(!authorization){
+                return response.status(401).send({error: 'err!'})
             }
 
-        })
+            const token = authorization.split(' ')[1]
 
-        if(!verifywl){
-            return response.status(401).send({error: 'Não existe essa wathclist'})
-        }
+            const {id} = jwt.verify(token, process.env.SECRET_TOKEN as string) as typeName;
 
-        const updateWatchList = await prisma.watchList.update({
-            
+            const user = await prisma.user.findUnique({where:{id}});
 
-            where: {
-                id:verifywl.id
-            },
-            data: {
-                name: name,
-                description: description,
-                privacy: privacy
+            if (!user){
+                return response.status(500).send({ err: "Usuário não existe no banco" });
             }
-        })
+        
+            const verifywl = await prisma.watchList.findUnique({
+                where:{
+                    id:idwl
+                }
 
-        return response.status(200).json(DeleteWatchList)
+            })
+
+            if(!verifywl){
+                return response.status(401).send({error: 'Não existe essa wathclist'})
+            }
+
+            const updateWatchList = await prisma.watchList.update({
+                where: {
+                    id:verifywl.id
+                },
+                data: {
+                    name,
+                    description,
+                    privacy
+                }
+            })
+
+            return response.status(200).json(updateWatchList)
+        }
+        catch{
+            return response.status(500).send("Erro, tente novamente")
+        }
     }
-    catch{
-        return response.status(500).send("Erro, tente novamente")
-    }
-}
-
-
-
 }

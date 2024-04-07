@@ -20,8 +20,8 @@ export class DeleteUsers {
 
                 const user = await prisma.user.findUnique({where:{id}});
 
-            if (!user){
-                return response.status(500).send({ err: "Usuário não existe no banco" });
+                if (!user){
+                    return response.status(500).send({ err: "Usuário não existe no banco" });
                 }
             await prisma.user.delete({where:{id}})
             return response.status(200).send({ message: "Conta de usuário deletada" });
