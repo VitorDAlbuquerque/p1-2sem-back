@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import jwt from 'jsonwebtoken';
 import { prisma } from "../../database";
-
+import bcryptjs from 'bcryptjs'
 type jwtPayload = {
     id: string
 }
@@ -23,20 +23,41 @@ export class UpdateUser{
                 return response.status(500).send({ err: "Usuário não existe no banco" });
             }
 
-            const updateUser = await prisma.user.update({
-                where:{
-                    id
-                },
-                data:{
-                    name,
-                    email,
-                    password,
-                    birthDate,
-                    country,
-                    gender,  
-                }
-            })
-            return response.status(200).json(updateUser)
+            const isOldPassord = await bcryptjs.compare(password, user.password);
+            const password_hash = bcryptjs.hashSync(password, 8);
+
+            if(isOldPassord){
+                const updateUser = await prisma.user.update({
+                    where:{
+                        id
+                    },
+                    data:{
+                        name,
+                        email,
+                        password: user.password,
+                        birthDate,
+                        country,
+                        gender,  
+                    }
+                })
+                return response.status(200).json(updateUser)
+            } else{
+                const updateUser = await prisma.user.update({
+                    where:{
+                        id
+                    },
+                    data:{
+                        name,
+                        email,
+                        password: password_hash,
+                        birthDate,
+                        country,
+                        gender,  
+                    }
+                })
+                return response.status(200).json(updateUser)
+            }
+            
         } catch{
             return response.status(500).send({ err: "Falha! Por favor tente novamente mais tarde." });
         }

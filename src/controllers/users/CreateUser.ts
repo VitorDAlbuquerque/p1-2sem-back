@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import {prisma} from '../../database'
 
 import bcryptjs from 'bcryptjs'
-import jwt from 'jsonwebtoken';
 
 export class CreateNewUser {
     async handle(request: Request, response: Response){
@@ -29,15 +28,6 @@ export class CreateNewUser {
                     country  
                 }
             })
-
-            const {id} = newUser
-
-            const token = jwt.sign(
-                { id, name }, 
-                process.env.SECRET_TOKEN as string, 
-                { expiresIn: '1d' }
-            );
-
 
             return response.status(201).json(newUser)
         } catch {
