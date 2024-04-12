@@ -5,12 +5,12 @@ import jwt from 'jsonwebtoken';
 type typeName= {
     id: string
 }
-
-export class DeleteUsers {
+export class UpdateUserTheme {
     async handle(request: Request, response: Response){
-        try {
+        try{
             const { authorization } = request.headers;
-            
+            const { theme } = request.body;
+
             if (!authorization) {
                 return response.status(500).send({ err: "Autorização inválida" });
             }
@@ -24,31 +24,18 @@ export class DeleteUsers {
                 return response.status(500).send({ err: "Usuário não existe no banco" });
             }
 
-            await prisma.isLiked.deleteMany({
-                where: {
-                    userId: id
-                }
-            })
-
-            await prisma.savedMovies.deleteMany({
+            const updateUser = await prisma.user.update({
                 where:{
-                   Watchlist: {
-                    authorId: id
-                   } 
+                    id
+                },
+                data:{
+                    theme
                 }
             })
-            await prisma.watchList.deleteMany({
-                where:{
-                    authorId: id
-                }
-            })
+            return response.status(200).json(updateUser)
 
-            await prisma.user.delete({where:{id}})
-            return response.status(200).send({ message: "Conta de usuário deletada" });
-            
-        } catch(error) {
-            console.error(error);
-            return response.status(500).send({ err: "Falha! Por favor tente novamente mais tarde." });
+        }catch{
+            return response.status(500).send({err: "Falha! Por favor tente novamente mais tarde."})
         }
     }
 }

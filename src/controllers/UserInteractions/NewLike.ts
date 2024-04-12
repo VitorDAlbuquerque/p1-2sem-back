@@ -10,7 +10,6 @@ export class NewLike {
         try{
             const {authorization} = request.headers
             const {watchlistId} = request.body
-            console.log(watchlistId)
             if(!authorization){
                 return response.status(401).send({error: 'err!'})
             }
@@ -84,10 +83,6 @@ export class NewLike {
                 })
                 return response.status(201).json(deleteLike)
             }
-            
-
-            
-
 
         } catch{
             return response.status(500).send({err: "Falha! Por favor tente novamente mais tarde."})

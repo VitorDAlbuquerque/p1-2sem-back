@@ -18,9 +18,11 @@ model user {
   name      String
   email     String      @unique
   password  String
+  bio       String      @default("Bio.")
   birthDate String
   gender    String
   country   String
+  theme     String      @default("#fff")
   WatchList WatchList[]
   isLiked   isLiked[]
 }
@@ -30,7 +32,7 @@ model SavedMovies {
   isChecked   Boolean   @default(false)
   Watchlist   WatchList @relation(fields: [WatchlistId], references: [id])
   WatchlistId String
-  movieId     Int
+  movieId     Int       @unique
   movieName   String
   movieURLImg String
 }

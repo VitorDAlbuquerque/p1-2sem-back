@@ -9,7 +9,8 @@ export class UpdateUser{
     async handle(request: Request, response: Response){
         try{
             const { authorization } = request.headers;
-            const {name, email, password, birthDate, country, gender} = request.body
+            const {name, email, password, birthDate, country, gender, bio} = request.body
+            console.log(password)
             if (!authorization) {
                 return response.status(500).send({ err: "Autorização inválida" });
             }
@@ -23,40 +24,23 @@ export class UpdateUser{
                 return response.status(500).send({ err: "Usuário não existe no banco" });
             }
 
-            const isOldPassord = await bcryptjs.compare(password, user.password);
-            const password_hash = bcryptjs.hashSync(password, 8);
-
-            if(isOldPassord){
-                const updateUser = await prisma.user.update({
-                    where:{
-                        id
-                    },
-                    data:{
-                        name,
-                        email,
-                        password: user.password,
-                        birthDate,
-                        country,
-                        gender,  
-                    }
-                })
-                return response.status(200).json(updateUser)
-            } else{
-                const updateUser = await prisma.user.update({
-                    where:{
-                        id
-                    },
-                    data:{
-                        name,
-                        email,
-                        password: password_hash,
-                        birthDate,
-                        country,
-                        gender,  
-                    }
-                })
-                return response.status(200).json(updateUser)
-            }
+           
+            const updateUser = await prisma.user.update({
+                where:{
+                    id
+                },
+                data:{
+                    name: name? name : user.name,
+                    email: email? email : user.email,
+                    password: password? bcryptjs.hashSync(password, 8) : user.password,
+                    birthDate: birthDate? birthDate : user.birthDate,
+                    country: country? country : user.country,
+                    gender: gender? gender : user.gender,
+                    bio: bio? bio : user.bio
+                }
+            })
+            return response.status(200).json(updateUser)
+           
             
         } catch{
             return response.status(500).send({ err: "Falha! Por favor tente novamente mais tarde." });

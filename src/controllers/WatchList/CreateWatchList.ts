@@ -35,7 +35,7 @@ export class CreateWatchList {
                     name,
                     description,
                     privacy,
-                    createDate: "a",
+                    createDate: String(new Date()),
                     banner: movieBanner,
                     authorId: user.id
                 }
