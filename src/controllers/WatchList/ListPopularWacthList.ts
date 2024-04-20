@@ -23,6 +23,11 @@ export class ListPopularWacthList {
                         userId: true,
                         watchListId: true
                     }
+                },
+                comment:{
+                    select:{
+                        userId: true
+                    }
                 }
             }
         })

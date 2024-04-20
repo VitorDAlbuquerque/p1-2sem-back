@@ -14,12 +14,16 @@ import { ListWatchListByUser } from './controllers/WatchList/ListWatchListByUser
 import { DeleteWatchList } from './controllers/WatchList/DeleteWatchList';
 import { ListPopularWacthList } from './controllers/WatchList/ListPopularWacthList';
 import { ListWatchListById } from './controllers/WatchList/ListWatchListById';
-import { ListMoviesOnWatchList } from './controllers/MoviesOnList/ListMoviesOnWatchList';
 import { GetUserById } from './controllers/users/GetUserById';
 import { UpdateWatchList } from './controllers/WatchList/UpdateWatchList';
-import { NewLike } from './controllers/UserInteractions/NewLike';
 import { UpdateUserTheme } from './controllers/users/UpdateUserTheme';
 import { UpdatePassword } from './controllers/users/UpdatePassword';
+
+import { ListMoviesOnWatchList } from './controllers/MoviesOnList/ListMoviesOnWatchList';
+
+import { NewLike } from './controllers/UserInteractions/NewLike';
+import { NewComment } from './controllers/UserInteractions/NewComment';
+import { ListComments } from './controllers/UserInteractions/ListComments';
 
 const router = Router()
 
@@ -42,7 +46,11 @@ const listPopularWacthList = new ListPopularWacthList()
 const updateWatchlist = new UpdateWatchList()
 
 const moviesOnLists = new ListMoviesOnWatchList()
+
 const newLike = new NewLike()
+const newComment = new NewComment()
+const listComments = new ListComments()
+
 //USERS
 router.get('/listUsers', listUsers.handle)
 router.post('/createNewUser', createUser.handle)
@@ -53,7 +61,6 @@ router.delete('/deleteUsers', deleteUsers.handle)
 router.post('/updateUser', updateUser.handle)
 router.put('/updateUserTheme', updateUserTheme.handle)
 router.put('/updatePassword', updatePassword.handle)
-
 //USERS
 
 //WATCHLISTS
@@ -67,6 +74,9 @@ router.get('/ListPopularWacthList', listPopularWacthList.handle)
 //WATCHLISTS
 
 router.post('/MoviesOnLists', moviesOnLists.handle)
+
 router.post('/newLike', newLike.handle)
+router.post('/newComment', newComment.handle)
+router.get('/ListComments/:watchlistId', listComments.handle)
 
 export {router}

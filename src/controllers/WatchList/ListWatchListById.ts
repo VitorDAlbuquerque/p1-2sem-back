@@ -27,6 +27,11 @@ export class ListWatchListById {
                             userId: true,
                             watchListId: true
                         }
+                    },
+                    comment:{
+                        select:{
+                            userId: true
+                        }
                     }
                 }
             })
