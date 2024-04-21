@@ -24,6 +24,8 @@ import { ListMoviesOnWatchList } from './controllers/MoviesOnList/ListMoviesOnWa
 import { NewLike } from './controllers/UserInteractions/NewLike';
 import { NewComment } from './controllers/UserInteractions/NewComment';
 import { ListComments } from './controllers/UserInteractions/ListComments';
+import { NewAssessment } from './controllers/UserInteractions/NewAssessment';
+import { ListAssessment } from './controllers/UserInteractions/ListAssessment';
 
 const router = Router()
 
@@ -50,6 +52,8 @@ const moviesOnLists = new ListMoviesOnWatchList()
 const newLike = new NewLike()
 const newComment = new NewComment()
 const listComments = new ListComments()
+const newAssessment = new NewAssessment()
+const listAssessment = new ListAssessment()
 
 //USERS
 router.get('/listUsers', listUsers.handle)
@@ -78,5 +82,8 @@ router.post('/MoviesOnLists', moviesOnLists.handle)
 router.post('/newLike', newLike.handle)
 router.post('/newComment', newComment.handle)
 router.get('/ListComments/:watchlistId', listComments.handle)
+router.post('/NewAssessment', newAssessment.handle)
+router.get('/ListAssessment/:movieId', listAssessment.handle)
+
 
 export {router}
