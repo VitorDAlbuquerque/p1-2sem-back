@@ -26,6 +26,8 @@ import { NewComment } from './controllers/UserInteractions/NewComment';
 import { ListComments } from './controllers/UserInteractions/ListComments';
 import { NewAssessment } from './controllers/UserInteractions/NewAssessment';
 import { ListAssessment } from './controllers/UserInteractions/ListAssessment';
+import { UpdateAssessment } from './controllers/UserInteractions/UpdateAssessment';
+import { DeleteAsssessment } from './controllers/UserInteractions/DeleteAssessment';
 
 const router = Router()
 
@@ -54,6 +56,8 @@ const newComment = new NewComment()
 const listComments = new ListComments()
 const newAssessment = new NewAssessment()
 const listAssessment = new ListAssessment()
+const updateAssessment = new UpdateAssessment()
+const deleteAsssessment = new DeleteAsssessment()
 
 //USERS
 router.get('/listUsers', listUsers.handle)
@@ -84,6 +88,7 @@ router.post('/newComment', newComment.handle)
 router.get('/ListComments/:watchlistId', listComments.handle)
 router.post('/NewAssessment', newAssessment.handle)
 router.get('/ListAssessment/:movieId', listAssessment.handle)
-
+router.put('/UpdateAssessment', updateAssessment.handle)
+router.delete('/DeleteAssessment', deleteAsssessment.handle)
 
 export {router}
