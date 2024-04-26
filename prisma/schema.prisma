@@ -27,6 +27,7 @@ model user {
   isLiked    isLiked[]
   comment    comment[]
   assessment assessment[]
+  isSaved     isSaved[]
 }
 
 model SavedMovies {
@@ -34,7 +35,7 @@ model SavedMovies {
   isChecked   Boolean   @default(false)
   Watchlist   WatchList @relation(fields: [WatchlistId], references: [id])
   WatchlistId String
-  movieId     Int       @unique
+  movieId     Int       
   movieName   String
   movieURLImg String
 }
@@ -64,6 +65,18 @@ model isLiked {
 
   @@id(name: "likeId", [watchListId, userId])
 }
+
+model isSaved{
+    
+  user        user        @relation(fields: [userId], references: [id])
+  userId      String
+  movieId     String
+  movieName   String
+  movieIMG    String
+
+  @@id(name: "saveId", [userId, movieId])
+}
+
 
 model comment {
   id          String    @id @default(uuid())
