@@ -10,11 +10,11 @@ type JwtPayload = {
 export class UpdateComments {
 
 
-async handle (request: Request, response: Response){
+    async handle (request: Request, response: Response){
 
         try{
         
-                const {text} = request.body
+                const {text, commentId} = request.body
                 const {authorization} = request.headers
 
                 if(!authorization){
@@ -32,7 +32,7 @@ async handle (request: Request, response: Response){
                 }
 
                 const comment = await prisma.comment.findUnique({
-                    where: {id:id}
+                    where: {id:commentId}
                 })
 
                 if(!comment){
@@ -41,7 +41,7 @@ async handle (request: Request, response: Response){
 
                 const updateComments = await prisma.comment.update({
                     where: {
-                        id:id
+                        id:commentId
                     },
                     data: {
                         text: text

@@ -30,6 +30,8 @@ import { UpdateAssessment } from './controllers/UserInteractions/UpdateAssessmen
 import { DeleteAsssessment } from './controllers/UserInteractions/DeleteAssessment';
 import { UpdateComments } from './controllers/UserInteractions/UpdateComments';
 import { FavoriteMovie } from './controllers/UserInteractions/FavoriteMovie';
+import { DeleteComments } from './controllers/UserInteractions/DeleteComments';
+import { ListFavoriteMovieByUser } from './controllers/UserInteractions/ListFavoriteMoviesByUser';
 
 const router = Router()
 
@@ -62,6 +64,8 @@ const updateAssessment = new UpdateAssessment()
 const deleteAsssessment = new DeleteAsssessment()
 const updateComments = new UpdateComments()
 const favoriteMovie = new FavoriteMovie()
+const deleteComments = new DeleteComments()
+const listFavoriteMovieByUser = new ListFavoriteMovieByUser()
 
 //USERS
 router.get('/listUsers', listUsers.handle)
@@ -96,5 +100,7 @@ router.put('/UpdateAssessment', updateAssessment.handle)
 router.delete('/DeleteAssessment', deleteAsssessment.handle)
 router.put('/UpdateComments', updateComments.handle)
 router.post('/favoriteMovie', favoriteMovie.handle)
+router.delete('/DeleteComments/:commentId', deleteComments.handle)
+router.get('/listFavoriteMovieByUser', listFavoriteMovieByUser.handle)
 
 export {router}

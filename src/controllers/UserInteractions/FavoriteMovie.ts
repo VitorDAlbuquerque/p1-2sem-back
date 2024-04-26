@@ -10,7 +10,7 @@ type JwtPayload = {
 
 export class FavoriteMovie{
 
-    async handle (response: Response, request: Request) {
+    async handle (request: Request, response: Response ) {
 
         
         try{
