@@ -32,7 +32,7 @@ import { UpdateComments } from './controllers/UserInteractions/UpdateComments';
 import { FavoriteMovie } from './controllers/UserInteractions/FavoriteMovie';
 import { DeleteComments } from './controllers/UserInteractions/DeleteComments';
 import { ListFavoriteMovieByUser } from './controllers/UserInteractions/ListFavoriteMoviesByUser';
-
+import { ListFavoriteMovieByMovie } from './controllers/UserInteractions/ListFavoriteByMovie';
 const router = Router()
 
 const createUser = new CreateNewUser()
@@ -66,6 +66,7 @@ const updateComments = new UpdateComments()
 const favoriteMovie = new FavoriteMovie()
 const deleteComments = new DeleteComments()
 const listFavoriteMovieByUser = new ListFavoriteMovieByUser()
+const listFavoriteMovieByMovie = new ListFavoriteMovieByMovie()
 
 //USERS
 router.get('/listUsers', listUsers.handle)
@@ -101,6 +102,7 @@ router.delete('/DeleteAssessment', deleteAsssessment.handle)
 router.put('/UpdateComments', updateComments.handle)
 router.post('/favoriteMovie', favoriteMovie.handle)
 router.delete('/DeleteComments/:commentId', deleteComments.handle)
-router.get('/listFavoriteMovieByUser', listFavoriteMovieByUser.handle)
+router.get('/listFavoriteMovieByUser/:userId', listFavoriteMovieByUser.handle)
+router.get('/listFavoriteMovieByMovie/:movieId', listFavoriteMovieByMovie.handle)
 
 export {router}

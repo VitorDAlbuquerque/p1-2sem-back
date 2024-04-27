@@ -2,27 +2,17 @@ import { Request, Response } from "express";
 import jwt from 'jsonwebtoken'
 import { prisma } from "../../database";
 
-type jwtstring = {
-    id: string
-}
-
 export class ListFavoriteMovieByUser{
 
     async handle(request: Request, response: Response){
         try{
 
-            const {authorization} = request.headers
-
-            if(!authorization)
-            {
+            const {userId} = request.params
+            if(!userId){
                 return response.status(400).send('Sem autorização!')
             }
 
-            const token = authorization.split(' ')[1]
-
-            const {id} = jwt.verify(token, process.env.SECRET_TOKEN as string) as jwtstring
-
-            const user = await prisma.user.findUnique({where: {id}})
+            const user = await prisma.user.findUnique({where: {id: userId}})
 
             if(!user){
                 return response.status(400).send("Não existe esse usuário!")
@@ -30,9 +20,10 @@ export class ListFavoriteMovieByUser{
 
             const listFavoriteMovieByUser = await prisma.isSaved.findMany({
                 where: {
-                    userId: id
+                    userId
+                },
+               
 
-                }
             })
             return response.status(200).json(listFavoriteMovieByUser)
         }

@@ -14,7 +14,7 @@ export class FavoriteMovie{
 
         
         try{
-            
+             
             const {movieId, movieName, movieIMG} = request.body
             const {authorization} = request.headers
 
