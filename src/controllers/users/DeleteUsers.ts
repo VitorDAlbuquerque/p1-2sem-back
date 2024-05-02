@@ -43,11 +43,22 @@ export class DeleteUsers {
                 }
             })
 
+            await prisma.review.deleteMany({
+                where:{
+                    userId: id
+                }
+            })
+
+            await prisma.isSaved.deleteMany({
+                where:{
+                    userId: id
+                }
+            })
+
             await prisma.user.delete({where:{id}})
             return response.status(200).send({ message: "Conta de usuário deletada" });
             
         } catch(error) {
-            console.error(error);
             return response.status(500).send({ err: "Falha! Por favor tente novamente mais tarde." });
         }
     }

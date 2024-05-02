@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import jwt from 'jsonwebtoken'
+
 import { prisma } from "../../database";
 
 export class ListFavoriteMovieByUser{
@@ -22,8 +22,6 @@ export class ListFavoriteMovieByUser{
                 where: {
                     userId
                 },
-               
-
             })
             return response.status(200).json(listFavoriteMovieByUser)
         }

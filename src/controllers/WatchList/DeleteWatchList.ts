@@ -54,13 +54,19 @@ async handle (request: Request, response: Response){
             }
         })
 
+        const deleteComments = await prisma.comment.deleteMany({
+            where:{
+                watchListId
+            }
+        })
+
         const deleteWatchList = await prisma.watchList.delete({
             where: {
                 id:verifywl.id
             }
         })
 
-        return response.status(200).json({deleteWatchList, deleteMoviesOnWatchList, deleteLikes})
+        return response.status(200).json({deleteWatchList, deleteMoviesOnWatchList, deleteLikes, deleteComments})
     }
     catch{
         return response.status(500).send("Erro, tente novamente")

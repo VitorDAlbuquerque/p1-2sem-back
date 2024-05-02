@@ -11,7 +11,6 @@ export class AddMoviesWatchList {
             const { movieName, watchListId, movieId,  movieURLImg} = request.body;
 
             const {authorization} = request.headers;
-
             if(!authorization){
                 return response.status(401).send({error: 'err!'})
             }

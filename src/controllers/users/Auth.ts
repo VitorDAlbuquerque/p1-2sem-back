@@ -23,7 +23,6 @@ export class Auth {
             if(!isValidPassword){
                 return response.status(401).send({err:"Username ou senha incorretos!"})
             }
-            console.log(email, isValidPassword)
 
             const {id, name} = userExists
 
