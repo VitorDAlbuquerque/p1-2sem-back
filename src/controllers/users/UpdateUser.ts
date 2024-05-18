@@ -8,26 +8,15 @@ type jwtPayload = {
 export class UpdateUser{
     async handle(request: Request, response: Response){
         try{
-            const { authorization } = request.headers;
-            const {name, email, password, birthDate, country, gender, bio} = request.body
-            console.log(password)
-            if (!authorization) {
-                return response.status(500).send({ err: "Autorização inválida" });
-            }
-            const token = authorization.split(' ')[1];
+            const {name, email, password, birthDate, country, gender, bio, imgIndex} = request.body
 
-            const {id} = jwt.verify(token, process.env.SECRET_TOKEN as string) as jwtPayload;
-
-            const user = await prisma.user.findUnique({where:{id}});
-
+            const user = await prisma.user.findUnique({where:{id: request.userId}});
             if (!user){
                 return response.status(500).send({ err: "Usuário não existe no banco" });
             }
-
-           
             const updateUser = await prisma.user.update({
                 where:{
-                    id
+                    id: user.id
                 },
                 data:{
                     name: name? name : user.name,
@@ -36,7 +25,8 @@ export class UpdateUser{
                     birthDate: birthDate? birthDate : user.birthDate,
                     country: country? country : user.country,
                     gender: gender? gender : user.gender,
-                    bio: bio? bio : user.bio
+                    bio: bio? bio : user.bio,
+                    imgIndex: imgIndex != -1? imgIndex : user.imgIndex
                 }
             })
             return response.status(200).json(updateUser)

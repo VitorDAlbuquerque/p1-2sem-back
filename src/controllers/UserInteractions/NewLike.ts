@@ -8,25 +8,7 @@ type JwtPayload = {
 export class NewLike {
     async handle(request: Request, response: Response){
         try{
-            const {authorization} = request.headers
             const {watchlistId} = request.body
-            if(!authorization){
-                return response.status(401).send({error: 'err!'})
-            }
-
-            const token = authorization.split(' ')[1]
-
-            const {id}  = jwt.verify(token, process.env.SECRET_TOKEN as string) as JwtPayload
-
-            const user = await prisma.user.findUnique({
-                where: {
-                    id
-                }
-            })
-
-            if(!user){
-                return response.status(401).send({err: "Usuário não encontrado!"})
-            }
 
             const watchList = await prisma.watchList.findUnique({
                 where: {
@@ -42,7 +24,7 @@ export class NewLike {
                 where: {
                     likeId: {
                         watchListId: watchList.id,
-                        userId: user.id
+                        userId: request.userId
                     }
                 }
             })
@@ -50,7 +32,7 @@ export class NewLike {
             if(!isLiked){
                 const newLike = await prisma.isLiked.create({
                     data:{
-                        userId: user.id,
+                        userId: request.userId,
                         watchListId: watchList.id
                     }
                 })
@@ -69,7 +51,7 @@ export class NewLike {
                     where: {
                         likeId: {
                             watchListId: watchList.id,
-                            userId: user.id
+                            userId: request.userId
                         }
                     }
                 })

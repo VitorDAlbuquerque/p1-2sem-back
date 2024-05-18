@@ -13,7 +13,8 @@ export class ListWatchListByUser {
                 include: {
                     user: {
                         select:{
-                            name: true
+                            name: true,
+                            imgIndex: true
                         }
                     },
                     isLiked:{

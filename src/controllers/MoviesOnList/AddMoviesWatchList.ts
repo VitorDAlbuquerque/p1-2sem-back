@@ -9,26 +9,6 @@ export class AddMoviesWatchList {
     async handle(request: Request, response: Response) {
         try {
             const { movieName, watchListId, movieId,  movieURLImg} = request.body;
-
-            const {authorization} = request.headers;
-            if(!authorization){
-                return response.status(401).send({error: 'err!'})
-            }
-
-            const token = authorization.split(' ')[1]
-
-            const {id}  = jwt.verify(token, process.env.SECRET_TOKEN as string) as JwtPayload
-
-            const user = await prisma.user.findUnique({
-                where: {
-                    id
-                }
-            })
-
-            if(!user){
-                return response.status(401).send({err: "Usuário não encontrado!"})
-            }
-
             const verifywl = await prisma.watchList.findUnique({
                 where: {
                     id: watchListId

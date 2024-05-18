@@ -11,23 +11,8 @@ export class UpdateWatchList{
 
     async handle( request: Request, response: Response){
         try{
-            const {authorization} = request.headers;
             const {idwl, name, description, privacy} = request.body;
 
-            if(!authorization){
-                return response.status(401).send({error: 'err!'})
-            }
-
-            const token = authorization.split(' ')[1]
-
-            const {id} = jwt.verify(token, process.env.SECRET_TOKEN as string) as typeName;
-
-            const user = await prisma.user.findUnique({where:{id}});
-
-            if (!user){
-                return response.status(500).send({ err: "Usuário não existe no banco" });
-            }
-        
             const verifywl = await prisma.watchList.findUnique({
                 where:{
                     id:idwl

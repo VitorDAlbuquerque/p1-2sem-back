@@ -9,19 +9,9 @@ type jwtPayload = {
 export class ValidateAuth {
     async handle(request: Request, response: Response){
         try{
-            const {authorization} = request.headers
-
-            if(!authorization){
-                return response.status(401).send({ error: 'Err!' });
-            }
-
-            const token = authorization.split(' ')[1]
-
-            const { id } = jwt.verify(token, process.env.SECRET_TOKEN as string) as jwtPayload
-
             const user = await prisma.user.findUnique({
                 where: {
-                    id
+                    id: request.userId
                 }
             })
 

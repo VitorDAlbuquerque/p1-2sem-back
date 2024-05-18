@@ -8,21 +8,7 @@ type JwtPayload = {
 export class NewComment {
     async handle(request: Request, response: Response){
         try{
-            const {authorization} = request.headers
             const {text, watchlistId} = request.body
-
-            if(!authorization){
-                return response.status(401).send({error: 'err!'})
-            }
-            const token = authorization.split(' ')[1]
-
-            const {id}  = jwt.verify(token, process.env.SECRET_TOKEN as string) as JwtPayload
-
-            const user = await prisma.user.findUnique({where: {id}})
-
-            if(!user){
-                return response.status(401).send({err: "Usuário não encontrado!"})
-            }
 
             const watchList = await prisma.watchList.findUnique({
                 where: {
@@ -40,7 +26,7 @@ export class NewComment {
 
             const newComment = await prisma.comment.create({
                 data:{
-                    userId: user.id,
+                    userId: request.userId,
                     watchListId: watchList.id,
                     text
                 }

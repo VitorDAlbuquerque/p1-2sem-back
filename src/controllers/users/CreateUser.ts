@@ -6,7 +6,7 @@ import bcryptjs from 'bcryptjs'
 export class CreateNewUser {
     async handle(request: Request, response: Response){
         try{
-            const {name, email, password, birthDate, gender, country} = request.body
+            const {name, username, email, password, birthDate, gender, country} = request.body
 
             const userExists = await prisma.user.findUnique({
                 where: {
@@ -21,11 +21,13 @@ export class CreateNewUser {
             const newUser = await prisma.user.create({
                 data:{
                     name,
+                    username: `@${username}`,
                     email,
                     password: password_hash,
                     birthDate,
                     gender,
-                    country  
+                    country,
+                    imgIndex: Math.floor(Math.random() * 19)
                 }
             })
 

@@ -15,7 +15,8 @@ export class ListPopularWacthList {
                 user:{
                     select:{
                         name: true,
-                        id: true
+                        id: true,
+                        imgIndex: true
                     }
                 },
                 isLiked:{

@@ -8,19 +8,8 @@ type jwtbanana = {
 export class DeleteComments{
     async handle(request: Request, response:Response){
         try{
-            const{authorization} = request.headers
             const {commentId} = request.params 
 
-            if(!authorization){
-                return response.status(400).send("Sem autorização!")
-            } 
-            
-            const token = authorization.split(" ")[1]
-            const {id} = jwt.verify(token, process.env.SECRET_TOKEN as string) as jwtbanana
-            const user = await prisma.user.findUnique({where:{id}})
-            if(!user){
-                return response.status(400).send("Usuário não encontrado!")
-            }
             const comment = await prisma.comment.findUnique({where:{id:commentId}})
             if(!comment){
                 return response.status(400).send("Comentário não encontrado!")

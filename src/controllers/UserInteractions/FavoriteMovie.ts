@@ -16,29 +16,11 @@ export class FavoriteMovie{
         try{
              
             const {movieId, movieName, movieIMG} = request.body
-            const {authorization} = request.headers
-
-            if(!authorization){
-                return response.status(401).send({error: 'err!'})
-
-            }
-
-            const token = authorization.split(' ')[1]
-
-
-            const {id} = jwt.verify(token, process.env.SECRET_TOKEN as string) as JwtPayload
-            const user = await prisma.user.findUnique({where: {id}})
-       
-            if(!user){
-                return response.status(401).send({error: 'err!'})
-            }
-
-            
 
             const isSaved = await prisma.isSaved.findUnique({
                 where: {
                     saveId: {
-                        userId: user.id,
+                        userId: request.userId,
                         movieId: movieId
                     }
                 }
@@ -48,7 +30,7 @@ export class FavoriteMovie{
                     
                     const newSave = await prisma.isSaved.create({
                         data: {
-                            userId: user.id,
+                            userId: request.userId,
                             movieId: movieId,
                             movieName: movieName,
                             movieIMG: movieIMG
@@ -60,7 +42,7 @@ export class FavoriteMovie{
                 const deleteSave = await prisma.isSaved.delete({
                     where: {
                         saveId: {
-                            userId: user.id,
+                            userId: request.userId,
                             movieId: movieId
                         }
                     }

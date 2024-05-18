@@ -1,6 +1,8 @@
 
 import { Router } from 'express';
 
+import midAthorization from './middlewares/Authorization'
+
 import { CreateNewUser} from './controllers/users/CreateUser';
 import { ListAllUsers } from './controllers/users/ListUsers';
 import { Auth } from './controllers/users/Auth';
@@ -36,6 +38,9 @@ import { ListFavoriteMovieByUser } from './controllers/UserInteractions/ListFavo
 import { ListFavoriteMovieByMovie } from './controllers/UserInteractions/ListFavoriteByMovie';
 import { GetReviewByUser } from './controllers/Review/GetReviewByUser';
 import { ListReviewByUser } from './controllers/Review/ListReviewByUser';
+import { NewFollow } from './controllers/Follows/NewFollow';
+import { ListFollowers } from './controllers/Follows/ListFollowers';
+import { ListFollowersByName } from './controllers/Follows/ListFollowersByName';
 
 const router = Router()
 
@@ -75,49 +80,57 @@ const listFavoriteMovieByMovie = new ListFavoriteMovieByMovie()
 const getReviewByUser = new GetReviewByUser()
 const listReviewByUser = new ListReviewByUser()
 
+const newFollow = new NewFollow()
+const listFollowers = new ListFollowers()
+const listFollowersByName = new ListFollowersByName()
 
 //USERS
 router.get('/listUsers', listUsers.handle)
 router.post('/createNewUser', createUser.handle)
 router.post('/auth', auth.handle)
 router.get('/userById/:id', userById.handle)
-router.get('/validateAuth', validateAuth.handle)
-router.delete('/deleteUsers', deleteUsers.handle)
-router.post('/updateUser', updateUser.handle)
-router.put('/updateUserTheme', updateUserTheme.handle)
+router.get('/validateAuth', midAthorization, validateAuth.handle)
+router.delete('/deleteUsers', midAthorization, deleteUsers.handle)
+router.post('/updateUser', midAthorization, updateUser.handle)
+router.put('/updateUserTheme', midAthorization, updateUserTheme.handle)
 router.put('/updatePassword', updatePassword.handle)
 //USERS
 
 //WATCHLISTS
-router.post('/createNewWatchList', createWatchList.handle)
+router.post('/createNewWatchList', midAthorization, createWatchList.handle)
 router.get('/listWatchListByUser/:id', listWatchListByUser.handle)
-router.get('/listWatchListByUserToken', listWatchListByUserToken.handle)
+router.get('/listWatchListByUserToken', midAthorization, listWatchListByUserToken.handle)
 router.get('/listWatchListById/:id', listWatchListById.handle)
-router.delete('/deleteWatchList/:watchListId', deleteWatchList.handle)
-router.post('/addMovie', addMovie.handle)
-router.put('/updateWatchlist', updateWatchlist.handle)
+router.delete('/deleteWatchList/:watchListId', midAthorization, deleteWatchList.handle)
+router.put('/updateWatchlist', midAthorization, updateWatchlist.handle)
 router.get('/ListPopularWacthList', listPopularWacthList.handle)
 //WATCHLISTS
 
+router.post('/addMovie', midAthorization, addMovie.handle)
 router.post('/MoviesOnLists', moviesOnLists.handle)
 
-router.post('/newLike', newLike.handle)
-router.post('/newComment', newComment.handle)
+router.post('/newLike', midAthorization, newLike.handle)
+
+router.post('/newComment', midAthorization, newComment.handle)
 router.get('/ListComments/:watchlistId', listComments.handle)
+router.put('/UpdateComments', midAthorization, updateComments.handle)
+router.delete('/DeleteComments/:commentId', midAthorization, deleteComments.handle)
 
-
-router.post('/NewReview', newReview.handle)
-
+router.post('/NewReview', midAthorization, newReview.handle)
 router.get('/ListReview/:movieId', listReview.handle)
-router.get('/GetReviewByUser/:movieId', getReviewByUser.handle)
-router.put('/UpdateReview', updateReview.handle)
-router.delete('/DeleteReview/:movieId', deleteReview.handle)
-router.put('/UpdateComments', updateComments.handle)
-router.post('/favoriteMovie', favoriteMovie.handle)
-router.delete('/DeleteComments/:commentId', deleteComments.handle)
+router.get('/GetReviewByUser/:movieId', midAthorization, getReviewByUser.handle)
+router.put('/UpdateReview', midAthorization, updateReview.handle)
+router.delete('/DeleteReview/:movieId', midAthorization, deleteReview.handle)
+
+router.post('/newFollow', midAthorization, newFollow.handle)
+router.get('/listFollowers/:userId', listFollowers.handle)
+router.post('/listFollowersByName', listFollowersByName.handle)
+
+router.post('/favoriteMovie', midAthorization, favoriteMovie.handle)
 router.get('/listFavoriteMovieByUser/:userId', listFavoriteMovieByUser.handle)
 router.get('/listFavoriteMovieByMovie/:movieId', listFavoriteMovieByMovie.handle)
 router.get('/listReviewByUser/:userId', listReviewByUser.handle)
+
 
 
 export {router}

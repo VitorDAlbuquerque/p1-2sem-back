@@ -1,10 +1,5 @@
 import { Request, Response } from "express";
-import jwt from 'jsonwebtoken';
 import { prisma } from "../../database";
-
-type jwtPayload = {
-    id: string
-}
 
 export class ListWatchListById {
     async handle(request: Request, response: Response){
@@ -19,7 +14,8 @@ export class ListWatchListById {
                     user: {
                         select:{
                             name: true,
-                            id: true
+                            id: true,
+                            imgIndex: true
                         }
                     },
                     isLiked:{

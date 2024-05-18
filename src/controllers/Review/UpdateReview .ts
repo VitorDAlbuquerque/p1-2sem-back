@@ -11,34 +11,13 @@ export class UpdateReview {
             
             //puxando valor das variaveis pelo body e headers
             const {text, rating, movieId} = request.body;
-            const {authorization} = request.headers
             
-            //vendo se o usuario ta logado 
-            if(!authorization){
-                return response.status(401).send({error: 'err!'})
-            }
-
-            // pegando o token do usuario
-            const token = authorization.split(' ')[1]
-
-            //checando qual ID é o token que pegou
-            const {id}  = jwt.verify(token, process.env.SECRET_TOKEN as string) as JwtPayload
-
-
-            //checando se tem essa usuario no banco
-            const user = await prisma.user.findUnique({where: {id}})
-
-            //erro se n tiver
-            if(!user){
-                return response.status(401).send({err: "Usuário não encontrado!"})
-            }
-
             //atualizando o banco
             const updateReview = await prisma.review.update({
                 where:{
                     reviewId:{
                         movieId,
-                        userId: user.id
+                        userId: request.userId
                     }
                 },
                 data:{

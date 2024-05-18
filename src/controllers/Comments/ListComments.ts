@@ -27,6 +27,7 @@ export class ListComments {
                     user:{
                         select:{
                             name: true,
+                            imgIndex: true
                         }
                     }
                 }

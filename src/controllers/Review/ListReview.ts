@@ -15,6 +15,7 @@ export class ListReview{
                     user:{
                         select:{
                             name: true,
+                            imgIndex: true
                         }
                     }
                 },

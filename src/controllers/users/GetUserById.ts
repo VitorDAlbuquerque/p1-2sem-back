@@ -9,6 +9,13 @@ export class GetUserById {
             const user = await prisma.user.findUnique({
                 where:{
                     id
+                },
+                include:{
+                    isFollowed: {
+                        select:{
+                            userFollowingId: true
+                        }
+                    }
                 }
             })
 
