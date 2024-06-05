@@ -9,7 +9,7 @@ import { Auth } from './controllers/users/Auth';
 import { ValidateAuth } from './controllers/users/ValidateAuth';
 import { DeleteUsers} from './controllers/users/DeleteUsers';
 import { UpdateUser } from './controllers/users/UpdateUser';
-
+import {Ban} from './controllers/Admin/Ban'
 import { CreateWatchList } from './controllers/WatchList/CreateWatchList';
 import { AddMoviesWatchList } from './controllers/MoviesOnList/AddMoviesWatchList';
 import { ListWatchListByUser } from './controllers/WatchList/ListWatchListByUser';
@@ -41,6 +41,7 @@ import { ListReviewByUser } from './controllers/Review/ListReviewByUser';
 import { NewFollow } from './controllers/Follows/NewFollow';
 import { ListFollowers } from './controllers/Follows/ListFollowers';
 import { ListFollowersByName } from './controllers/Follows/ListFollowersByName';
+import { ChangePassword } from './controllers/Admin/ChangePassword';
 
 const router = Router()
 
@@ -83,6 +84,11 @@ const listReviewByUser = new ListReviewByUser()
 const newFollow = new NewFollow()
 const listFollowers = new ListFollowers()
 const listFollowersByName = new ListFollowersByName()
+
+
+const banUser = new Ban()
+const changePassword = new ChangePassword()
+
 
 //USERS
 router.get('/listUsers', listUsers.handle)
@@ -131,6 +137,7 @@ router.get('/listFavoriteMovieByUser/:userId', listFavoriteMovieByUser.handle)
 router.get('/listFavoriteMovieByMovie/:movieId', listFavoriteMovieByMovie.handle)
 router.get('/listReviewByUser/:userId', listReviewByUser.handle)
 
-
+router.post('/banUser/:userid', banUser.handle)
+router.put('/changePassword/:userId', changePassword.handle)
 
 export {router}

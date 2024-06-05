@@ -25,6 +25,7 @@ model user {
   country   String
   theme     String      @default("#fff")
   imgIndex  Int         @default(0)
+  isADM     Boolean     @default(false)
   WatchList WatchList[]
   isLiked   isLiked[]
   comment   comment[]
