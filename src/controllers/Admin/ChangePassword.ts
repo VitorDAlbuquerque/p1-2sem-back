@@ -7,12 +7,12 @@ export class ChangePassword {
     async handle(request: Request, response: Response){
         try{
 
-            const{userId} = request.params;
             const {changeId, newPassword} = request.body;
+            console.log(changeId, newPassword)
 
             const verifyAdmin = await prisma.user.findUnique({
                 where: {
-                    id: userId,
+                    id: request.userId,
                     isADM: true
                 }
             })
@@ -32,7 +32,6 @@ export class ChangePassword {
             }
 
             const password_hash = bcryptjs.hashSync(newPassword, 8);
-
 
             await prisma.user.update({
                 where:{

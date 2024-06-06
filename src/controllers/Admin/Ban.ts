@@ -7,12 +7,10 @@ export class Ban{
     async handle(request: Request, response: Response){
         try{
             const{banId} = request.body;
-            const{userid} = request.params;
-
 
             const verifyAdmin = await prisma.user.findUnique({
                 where: {
-                    id: userid,
+                    id: request.userId,
                     isADM: true
                 }
             })
@@ -29,12 +27,21 @@ export class Ban{
             if(!verifyid){
                 return response.status(401).send("Não existe esse usuário.")
             }
-
-
-
             await prisma.isLiked.deleteMany({
                 where: {
                     userId: banId
+                }
+            })
+
+            await prisma.comment.deleteMany({
+                where: {
+                    userId: banId
+                }
+            })
+
+            await prisma.isFollow.deleteMany({
+                where: {
+                    userFollowingId: banId
                 }
             })
 
@@ -45,11 +52,13 @@ export class Ban{
                    } 
                 }
             })
+
             await prisma.watchList.deleteMany({
                 where:{
                     authorId: banId
                 }
             })
+            console.log("a")
 
             await prisma.review.deleteMany({
                 where:{

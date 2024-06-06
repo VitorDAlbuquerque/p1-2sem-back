@@ -21,7 +21,8 @@ export class ListFollowersByName {
                     userFollowedId: userId,
                     userFollowing:{
                         name:{
-                            contains: name
+                            contains: name,
+                            mode: 'insensitive'
                         }
                     }
                 },

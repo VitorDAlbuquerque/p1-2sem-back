@@ -30,6 +30,18 @@ export class DeleteUsers {
                 }
             })
 
+            await prisma.comment.deleteMany({
+                where: {
+                    userId: id
+                }
+            })
+
+            await prisma.isFollow.deleteMany({
+                where: {
+                    userFollowingId: id
+                }
+            })
+
             await prisma.savedMovies.deleteMany({
                 where:{
                    Watchlist: {

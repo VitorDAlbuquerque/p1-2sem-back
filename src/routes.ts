@@ -42,6 +42,7 @@ import { NewFollow } from './controllers/Follows/NewFollow';
 import { ListFollowers } from './controllers/Follows/ListFollowers';
 import { ListFollowersByName } from './controllers/Follows/ListFollowersByName';
 import { ChangePassword } from './controllers/Admin/ChangePassword';
+import { SearchUsers } from './controllers/users/SeachUsers';
 
 const router = Router()
 
@@ -54,6 +55,7 @@ const deleteUsers = new DeleteUsers()
 const updateUser = new UpdateUser()
 const updateUserTheme = new UpdateUserTheme()
 const updatePassword = new UpdatePassword()
+const searchUsers = new SearchUsers()
 
 const createWatchList = new CreateWatchList()
 const listWatchListByUser = new ListWatchListByUser()
@@ -100,6 +102,7 @@ router.delete('/deleteUsers', midAthorization, deleteUsers.handle)
 router.post('/updateUser', midAthorization, updateUser.handle)
 router.put('/updateUserTheme', midAthorization, updateUserTheme.handle)
 router.put('/updatePassword', updatePassword.handle)
+router.post('/searchUsers', searchUsers.handle)
 //USERS
 
 //WATCHLISTS
@@ -137,7 +140,7 @@ router.get('/listFavoriteMovieByUser/:userId', listFavoriteMovieByUser.handle)
 router.get('/listFavoriteMovieByMovie/:movieId', listFavoriteMovieByMovie.handle)
 router.get('/listReviewByUser/:userId', listReviewByUser.handle)
 
-router.post('/banUser/:userid', banUser.handle)
-router.put('/changePassword/:userId', changePassword.handle)
+router.post('/banUser', midAthorization, banUser.handle)
+router.put('/changePassword', midAthorization, changePassword.handle)
 
 export {router}
