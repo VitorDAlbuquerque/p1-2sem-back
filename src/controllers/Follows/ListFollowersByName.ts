@@ -20,10 +20,20 @@ export class ListFollowersByName {
                 where:{
                     userFollowedId: userId,
                     userFollowing:{
-                        name:{
-                            contains: name,
-                            mode: 'insensitive'
-                        }
+                        OR:[
+                            {
+                                username:{
+                                    contains: name,
+                                    mode: 'insensitive',
+                                }
+                            },
+                            {
+                                name: {
+                                    contains: name,
+                                    mode: 'insensitive',
+                                }
+                            }
+                        ]
                     }
                 },
                 include:{
