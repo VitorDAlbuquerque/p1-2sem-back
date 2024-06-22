@@ -30,9 +30,26 @@ export class DeleteUsers {
                 }
             })
 
+            await prisma.isLiked.deleteMany({
+                where: {
+                    watchlist:{
+                        authorId: id
+                    }
+                }
+            })
+
+
             await prisma.comment.deleteMany({
                 where: {
                     userId: id
+                }
+            })
+
+            await prisma.comment.deleteMany({
+                where: {
+                    watchlist:{
+                        authorId: id
+                    }
                 }
             })
 
@@ -49,6 +66,7 @@ export class DeleteUsers {
                    } 
                 }
             })
+
             await prisma.watchList.deleteMany({
                 where:{
                     authorId: id
